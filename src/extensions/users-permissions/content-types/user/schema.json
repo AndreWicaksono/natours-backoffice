@@ -65,8 +65,9 @@
     },
     "tours": {
       "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::tour.tour"
+      "relation": "manyToMany",
+      "target": "api::tour.tour",
+      "inversedBy": "users"
     }
   }
 }
