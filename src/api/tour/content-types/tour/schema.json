@@ -16,12 +16,14 @@
       "type": "string",
       "required": true
     },
-    "location": {
+    "city": {
       "type": "string",
       "required": true
     },
-    "participant": {
-      "type": "integer"
+    "minimumParticipant": {
+      "type": "integer",
+      "default": 0,
+      "min": 0
     },
     "price": {
       "type": "biginteger"
@@ -50,6 +52,23 @@
       "relation": "manyToMany",
       "target": "plugin::users-permissions.user",
       "inversedBy": "tours"
+    },
+    "maximumParticipant": {
+      "type": "integer",
+      "default": 0,
+      "min": 0
+    },
+    "province": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "required": true,
+      "targetField": "name"
+    },
+    "schedule": {
+      "type": "json"
     }
   }
 }
