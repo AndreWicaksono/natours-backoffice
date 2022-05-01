@@ -11,12 +11,12 @@
   },
   "devDependencies": {},
   "dependencies": {
-    "@strapi/plugin-graphql": "^4.1.8",
-    "@strapi/plugin-i18n": "4.1.8",
-    "@strapi/plugin-users-permissions": "4.1.8",
-    "@strapi/strapi": "4.1.8",
+    "@strapi/plugin-graphql": "^4.1.9",
+    "@strapi/plugin-i18n": "4.1.9",
+    "@strapi/plugin-users-permissions": "4.1.9",
+    "@strapi/strapi": "4.1.9",
     "lodash": "^4.17.21",
-    "sqlite3": "5.0.3"
+    "sqlite3": "5.0.6"
   },
   "author": {
     "name": "Andre Wicaksono"
