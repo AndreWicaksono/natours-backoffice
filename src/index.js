@@ -58,6 +58,65 @@ module.exports = {
             });
           },
         }),
+        nexus.extendType({
+          type: "Mutation",
+          definition(t) {
+            t.field("addTourWishlist", {
+              args: {
+                id: nexus.intArg("ID"),
+              },
+              type: nexus.objectType({
+                name: "AddTourWishlistResponse",
+                definition(t) {
+                  t.field("error", {
+                    type: nexus.objectType({
+                      name: "AddTourWishlistErrorObject",
+                      definition(e) {
+                        e.int("code");
+                        e.string("message");
+                      },
+                    }),
+                  });
+                  t.boolean("success");
+                },
+              }),
+              resolve: async (root, args, context) => {
+                const selectedTour = await strapi.entityService.findOne(
+                  "api::tour.tour",
+                  args.id,
+                  {
+                    populate: { users: true },
+                  }
+                );
+
+                const isAlreadyWishlisted = selectedTour.users.find(
+                  (user) => user.id === context.state.user.id
+                );
+
+                if (!isAlreadyWishlisted) {
+                  await strapi.entityService.update("api::tour.tour", args.id, {
+                    data: {
+                      users: [...selectedTour.users, context.state.user],
+                    },
+                  });
+
+                  return {
+                    error: null,
+                    success: true,
+                  };
+                } else {
+                  return {
+                    error: {
+                      code: 1,
+                      message: "Tour was already wishlisted by user",
+                    },
+                    success: false,
+                  };
+                }
+              },
+            });
+          },
+        }),
       ],
     }));
   },
