@@ -157,6 +157,67 @@ module.exports = {
             });
           },
         }),
+        nexus.extendType({
+          type: "Mutation",
+          definition(t) {
+            t.field("removeTourWishlist", {
+              args: {
+                id: nexus.intArg("ID"),
+              },
+              type: nexus.objectType({
+                name: "RemoveTourWishlistResponse",
+                definition(t) {
+                  t.field("error", {
+                    type: nexus.objectType({
+                      name: "RemoveTourWishlistErrorObject",
+                      definition(e) {
+                        e.int("code");
+                        e.string("message");
+                      },
+                    }),
+                  });
+                  t.boolean("success");
+                },
+              }),
+              resolve: async (root, args, context) => {
+                const selectedTour = await strapi.entityService.findOne(
+                  "api::tour.tour",
+                  args.id,
+                  {
+                    populate: { users: true },
+                  }
+                );
+
+                const isUserWishlistThisTour = !!selectedTour.users.find(
+                  (user) => user.id === context.state.user.id
+                );
+
+                const newUsersData = (selectedTour.users.filter(user => user.id !== context.state.user.id));
+
+                if (isUserWishlistThisTour) {
+                  await strapi.entityService.update("api::tour.tour", args.id, {
+                    data: {
+                      users: newUsersData,
+                    },
+                  });
+
+                  return {
+                    error: null,
+                    success: true,
+                  };
+                } else {
+                  return {
+                    error: {
+                      code: 1,
+                      message: "User not wishlisted this tour",
+                    },
+                    success: false,
+                  };
+                }
+              },
+            });
+          },
+        }),
       ],
     }));
   },
