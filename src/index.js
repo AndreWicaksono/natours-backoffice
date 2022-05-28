@@ -25,15 +25,45 @@ module.exports = {
           definition(t) {
             t.field("toursWishlist", {
               args: {
-                pagination: "PaginationArg",
+                pagination: nexus.inputObjectType({
+                  name: "TourWishlistPaginationArgs",
+                  definition(t) {
+                    t.int("start");
+                    t.int("limit");
+                  },
+                }),
                 sort: nexus.stringArg("Order by"),
               },
-              type: "TourEntityResponseCollection",
+              type: nexus.objectType({
+                name: "ToursWishlistResponseCollection",
+                definition(t) {
+                  t.field("data", {
+                    type: nexus.list("TourEntity"),
+                  });
+                  t.field("meta", {
+                    type: nexus.objectType({
+                      name: "TourWishlistMeta",
+                      definition(t) {
+                        t.field("pagination", {
+                          type: nexus.objectType({
+                            name: "TourWishlistPaginationMeta",
+                            definition(t) {
+                              t.int("offset");
+                              t.int("limit");
+                              t.int("total");
+                            },
+                          }),
+                        });
+                      },
+                    }),
+                  });
+                },
+              }),
               resolve: async (root, args, context) => {
-                const transformedArgs = transformArgs(args, {
-                  contentType: strapi.contentTypes["api::tour.tour"],
-                  usePagination: true,
-                });
+                // const transformedArgs = transformArgs(args, {
+                //   contentType: strapi.contentTypes["api::tour.tour"],
+                //   usePagination: true,
+                // });
 
                 const [toursEntries, toursCount] = await strapi.db
                   .query("api::tour.tour")
@@ -50,10 +80,20 @@ module.exports = {
                     limit: args?.pagination?.limit,
                   });
 
-                return toEntityResponseCollection(toursEntries ?? [], {
-                  args: transformedArgs,
-                  resourceUID: "api::tour.tour",
-                });
+                return {
+                  data: toursEntries,
+                  meta: {
+                    pagination: {
+                      offset: args?.pagination?.start,
+                      limit: args?.pagination?.limit,
+                      total: toursCount,
+                    },
+                  },
+                };
+                // return toEntityResponseCollection(toursEntries ?? [], {
+                //   args: transformedArgs,
+                //   resourceUID: "api::tour.tour",
+                // });
               },
             });
           },
