@@ -31,7 +31,7 @@
     "imagePreview": {
       "type": "media",
       "multiple": false,
-      "required": true,
+      "required": false,
       "allowedTypes": [
         "images"
       ]
@@ -69,6 +69,12 @@
     },
     "schedule": {
       "type": "json"
+    },
+    "tourActivity": {
+      "displayName": "Tour Activity",
+      "type": "component",
+      "repeatable": true,
+      "component": "tour-agenda.tour-activity"
     }
   }
 }

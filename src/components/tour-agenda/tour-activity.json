@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_tour_agenda_tour_activities",
+  "info": {
+    "displayName": "Tour Activity",
+    "icon": "running",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "day": {
+      "type": "integer",
+      "min": 1,
+      "required": true
+    },
+    "timeline": {
+      "type": "component",
+      "repeatable": true,
+      "component": "tour-agenda.tour-agenda"
+    }
+  }
+}
