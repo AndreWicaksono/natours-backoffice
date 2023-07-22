@@ -58,10 +58,6 @@
       "default": 0,
       "min": 0
     },
-    "province": {
-      "type": "string",
-      "required": true
-    },
     "slug": {
       "type": "uid",
       "required": true,
@@ -75,6 +71,12 @@
       "type": "component",
       "repeatable": true,
       "component": "tour-agenda.tour-activity"
+    },
+    "provinces": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::province.province",
+      "inversedBy": "tours"
     }
   }
 }
