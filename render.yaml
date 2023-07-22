@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: natours-backoffice
+    env: node
+    plan: starter
+    buildCommand: npm install && npm build
+    startCommand: rsync -a public/ /data/public/ && npm start
+    healthCheckPath: /_health
+    autoDeploy: false
+    disk:
+      name: natours-backoffice-data
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: NODE_VERSION
+        value: ~18.16.10
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_FILENAME
+        value: /data/natours-backoffice.db
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ADMIN_JWT_SECRET
+        generateValue: true
+      - key: APP_KEYS
+        generateValue: true
