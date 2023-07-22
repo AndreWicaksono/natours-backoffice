@@ -1,5 +1,7 @@
 ("use strict");
 
+// const { faker } = require('@faker-js/faker/locale/id_ID');
+
 module.exports = {
   /**
    * An asynchronous register function that runs before
@@ -229,5 +231,24 @@ module.exports = {
    * This gives you an opportunity to set up your data model,
    * run jobs, or perform some special logic.
    */
+
   bootstrap(/*{ strapi }*/) {},
+
+  /** 
+   Faker JS Data Generator
+  */
+ 
+  // async bootstrap({ strapi }) {
+  //   for (let i = 0; i < 10; i++) {
+  //     await strapi.entityService.create("api::tour.tour", {
+  //       data: {
+  //         city: faker.address.cityName(),
+  //         imagePreview: 2,
+  //         name: faker.lorem.words(3).split(" ").map(word => word[0].toUpperCase() + word.substring(1)).join(" "),
+  //         province: faker.address.state(),
+  //         slug: faker.lorem.slug(2),
+  //       }
+  //     })
+  //   }
+  // },
 };
