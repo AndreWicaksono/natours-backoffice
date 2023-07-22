@@ -31,7 +31,7 @@
     "imagePreview": {
       "type": "media",
       "multiple": false,
-      "required": false,
+      "required": true,
       "allowedTypes": [
         "images"
       ]
@@ -58,6 +58,10 @@
       "default": 0,
       "min": 0
     },
+    "province": {
+      "type": "string",
+      "required": true
+    },
     "slug": {
       "type": "uid",
       "required": true,
@@ -65,18 +69,6 @@
     },
     "schedule": {
       "type": "json"
-    },
-    "tourActivity": {
-      "displayName": "Tour Activity",
-      "type": "component",
-      "repeatable": true,
-      "component": "tour-agenda.tour-activity"
-    },
-    "provinces": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::province.province",
-      "inversedBy": "tours"
     }
   }
 }
